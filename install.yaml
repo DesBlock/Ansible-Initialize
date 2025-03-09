@@ -33,7 +33,7 @@
       ansible.builtin.include_tasks: "tasks/golang/golang_install.yaml"
 
     - name: "Install Go Packages"
-      ansible.builtin.command: "go install {{ item.value }}"
+      ansible.builtin.command: "/usr/local/go/bin/go install {{ item.value }}"
       environment:
         GOROOT: "/usr/local/go"
         GOPATH: "{{ lookup('ansible.builtin.env', 'HOME') }}/go"

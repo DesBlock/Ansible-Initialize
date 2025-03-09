@@ -15,6 +15,5 @@
 - name: Install rust/cargo
   ansible.builtin.command: /tmp/sh.rustup.rs -y
   register: rust_install
-  changed_when: '"Rust is installed now" in rust_install.stdout'
+  changed_when: '"Rust is installed now" not in rust_install.stdout'
   when: cargo_exists.stdout | length == 0
-  become: true
