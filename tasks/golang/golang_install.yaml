@@ -1,0 +1,83 @@
+- name: Check installed shells
+  block:
+    - name: Check for .bashrc
+      ansible.builtin.stat:
+        path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.bashrc"
+      register: bashrc_file
+
+    - name: Check for .zshrc
+      ansible.builtin.stat:
+        path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.zshrc"
+      register: zshrc_file
+
+- name: Check GoLang
+  block:
+    - name: Remove GoLang installed with apt.
+      ansible.builtin.apt:
+        name: 'golang-*'
+        state: absent
+        purge: true
+      register: golang_purge
+      failed_when:
+        - golang_purge.failed is true
+        - '"No package(s) matching" not in golang_purge.msg'
+
+    - name: Check installed version of GoLang
+      ansible.builtin.command: go version
+      register: installed_go_version
+      changed_when: false
+      failed_when: false
+
+    - name: Get the latest go release version
+      ansible.builtin.uri:
+        url: 'https://go.dev/VERSION?m=text'
+        return_content: true
+      register: release_go_version_raw
+
+    - name: Set Release GoLang Version
+      ansible.builtin.set_fact:
+        release_go_version: "{{ release_go_version_raw.content | regex_replace('\n.*','') }}"
+
+    - name: Remove Old GoLang Version
+      ansible.builtin.file:
+        path: /usr/local/go
+        state: absent
+      become: true
+      register: uninstall_golang
+      when: "release_go_version not in installed_go_version.stdout"
+
+- name: Install GoLang
+  when: uninstall_golang.changed or installed_go_version.stdout | length == 0
+  become: true
+  block:
+
+    - name: Download Latest GoLang
+      ansible.builtin.get_url:
+        url: "https://go.dev/dl/{{ release_go_version }}.linux-amd64.tar.gz"
+        dest: "/tmp/{{ release_go_version }}.linux-amd64.tar.gz"
+        mode: '644'
+
+    - name: Extract {{ release_go_version }} tarball
+      ansible.builtin.unarchive:
+        src: "/tmp/{{ release_go_version }}.linux-amd64.tar.gz"
+        dest: "/usr/local"
+        mode: "755"
+        remote_src: true
+
+    - name: Ensure GoLang Path is in .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ item }}"
+        line: 'export PATH=$PATH:/usr/local/go/bin'
+      loop:
+        - '/root/.bashrc'
+        - "{{ bashrc_file.stat.path }}"
+      when: bashrc_file.stat.exists
+
+    - name: Ensure GoLang Path is in .zshrc
+      ansible.builtin.lineinfile:
+        path: "{{ item }}"
+        line: 'export PATH=$PATH:/usr/local/go/bin'
+      loop:
+        - '/root/.zshrc'
+        - "{{ zshrc_file.stat.path }}"
+      when: zshrc_file.stat.exists

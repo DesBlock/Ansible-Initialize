@@ -1,0 +1,20 @@
+- name: Check if cargo is installed
+  ansible.builtin.command: which cargo
+  register: cargo_exists
+  changed_when: false
+  failed_when: cargo_exists.stderr | length > 0
+
+- name: Download RustUp Installer
+  ansible.builtin.get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/sh.rustup.rs
+    mode: '0755'
+    force: 'yes'
+  when: cargo_exists.stdout | length == 0
+
+- name: Install rust/cargo
+  ansible.builtin.command: /tmp/sh.rustup.rs -y
+  register: rust_install
+  changed_when: '"Rust is installed now" in rust_install.stdout'
+  when: cargo_exists.stdout | length == 0
+  become: true

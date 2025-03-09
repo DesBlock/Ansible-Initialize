@@ -1,0 +1,77 @@
+- name: Install all the tools
+  hosts: localhost
+  tasks:
+    - name: Include Package Variable
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - "apt.yaml"
+        - "cargo.yaml"
+        - "git.yaml"
+        - "golang.yaml"
+        - "python.yaml"
+        - "vars.yaml"
+
+    - name: Check installed shells
+      block:
+        - name: Check for .bashrc
+          ansible.builtin.stat:
+            path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.bashrc"
+          register: bashrc_file
+
+        - name: Check for .zshrc
+          ansible.builtin.stat:
+            path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.zshrc"
+          register: zshrc_file
+
+    - name: Update repositories cache and install apt packages
+      ansible.builtin.apt:
+        name: "{{ apt_packages }}"
+        update_cache: true
+      become: true
+
+    - name: Install GoLang
+      ansible.builtin.include_tasks: "tasks/golang/golang_install.yaml"
+
+    - name: "Install Go Packages"
+      ansible.builtin.command: "go install {{ item.value }}"
+      environment:
+        GOROOT: "/usr/local/go"
+        GOPATH: "{{ lookup('ansible.builtin.env', 'HOME') }}/go"
+      loop: "{{ lookup('ansible.builtin.dict', golang_packages) }}"
+      register: "go_get_result"
+      changed_when: "'downloading' in go_get_result.stderr"
+
+    - name: Install Rust
+      ansible.builtin.include_tasks: "tasks/rust/rust_install.yaml"
+
+    - name: Install Cargo packages
+      community.general.cargo:
+        name: "{{ cargo_packages }}"
+        executable: "{{ lookup('ansible.builtin.env', 'HOME') }}/.cargo/bin/cargo"
+        state: latest
+
+    - name: Install Pipx Packages
+      community.general.pipx:
+        name: "{{ item.key }}"
+        source: "{{ item.value or '' }}"
+        state: latest
+      loop: "{{ lookup('ansible.builtin.dict', pipx_packages) }}"
+
+    - name: Create Tools Directory
+      ansible.builtin.file:
+        path: "{{ tools_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Git Clone Repos Into Tools Directory
+      ansible.builtin.git:
+        repo: "{{ item.value.repo }}"
+        dest: "{{ item.value.dest | default(tools_dir) }}/{{ item.key }}"
+        version: "{{ item.value.version | default('HEAD') }}"
+        depth: "{{ item.value.depth | default(omit) }}"
+      loop: "{{ lookup('ansible.builtin.dict', git_packages) }}"
+      register: git_clone_results
+      become: "{{ item.value.become | default(false) }}"
+
+    - name: Configure specific tools
+      ansible.builtin.include_tasks: "tasks/git/git_configure.yaml"

@@ -1,0 +1,15 @@
+# All variables except "repo" are optional.
+# If not specified a default value will be used.
+# become: false 
+# depth = ''
+# dest = tools_dir
+# version = 'HEAD'
+
+git_packages:
+  trufflehog:
+    repo: "https://github.com/trufflesecurity/trufflehog.git"
+  seclists:
+    repo: "https://github.com/danielmiessler/SecLists.git"
+    depth: 1
+    dest: "/usr/share/seclists"
+    become: true

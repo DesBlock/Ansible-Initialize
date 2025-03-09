@@ -1,0 +1,10 @@
+- name: Include Default Vars
+  ansible.builtin.include_vars: "{{ playbook_dir }}/vars/vars.yaml"
+
+- name: Install Trufflehog
+  ansible.builtin.command:
+    cmd: "go install"
+    chdir: "{{ tools_dir }}/trufflehog"
+  # environment:
+  #   GOROOT: "/usr/local/go"
+  #   GOPATH: "{{ lookup('ansible.builtin.env', 'HOME') }}/go"
