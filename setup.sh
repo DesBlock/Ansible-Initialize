@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 # Apt Update
 sudo apt-get update -y
 
@@ -11,13 +11,10 @@ sudo apt-get purge -y pipx # Uninstall old pipx versions
 python3 -m pip install --user pipx --break-system-packages || python3 -m pip install pipx
 
 # Source .bashrc so pipx path will be found.
-source "$HOME/.bashrc"
+export PATH="$PATH:$HOME/.local/bin"
 
 # Global ensurepath
-python3 -m pipx ensurepath
-sudo pipx ensurepath --global
-source "$HOME/.bashrc"
-
+python3 -m pipx ensurepath --force
 
 # Install Ansible
 pipx install --include-deps ansible
@@ -28,6 +25,6 @@ pipx install --include-deps ansible
 pipx inject ansible ansible-lint
 
 # Source again to include ansible packages in PATH
-source "$HOME/.bashrc"
+#source "$HOME/.bashrc"
 
 ansible-galaxy collection install community.general
