@@ -1,5 +1,5 @@
 ---
-name: Tool Request Template
+name: Tool Request
 about: An issue template specifically for requesting new tools
 title: "[TOOL REQ]: Title"
 labels: tool request
