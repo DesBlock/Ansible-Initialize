@@ -8,8 +8,7 @@ sudo apt-get install python3 python3-dev python3-venv
 
 # Install Pipx
 sudo apt-get purge pipx # Uninstall old pipx versions
-python3 -m pip install --user pipx --break-system-packages
-python3 -m pipx ensurepath
+sudo python3 -m pip install --break-system-packages
 
 # Source .bashrc so pipx path will be found.
 source "$HOME/.bashrc"
