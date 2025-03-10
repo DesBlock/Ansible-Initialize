@@ -2,7 +2,10 @@
 
 Use Ansible to quickly setup an operator environment in a quick and repeatable way.
 
-Tested on Ubuntu 24.04 LTS system.
+Tested on 
+
+- Ubuntu 24.04 LTS
+- Kali 2025.1
 
 ## Install
 
