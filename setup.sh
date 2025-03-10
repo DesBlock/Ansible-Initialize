@@ -8,13 +8,16 @@ sudo apt-get install -y python3 python3-dev python3-venv
 
 # Install Pipx
 sudo apt-get purge -y pipx # Uninstall old pipx versions
-sudo python3 -m pip install pipx --break-system-packages || sudo python3 -m pip install pipx
+python3 -m pip install pipx --break-system-packages || python3 -m pip install pipx
 
 # Source .bashrc so pipx path will be found.
 source "$HOME/.bashrc"
 
 # Global ensurepath
+pipx ensurepath --global
 sudo pipx ensurepath --global
+source "$HOME/.bashrc"
+
 
 # Install Ansible
 pipx install --include-deps ansible
