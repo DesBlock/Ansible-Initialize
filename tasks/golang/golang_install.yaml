@@ -23,7 +23,7 @@
         - '"No package(s) matching" not in golang_purge.msg'
 
     - name: Check installed version of GoLang
-      ansible.builtin.command: go version
+      ansible.builtin.command: /usr/local/go/bin/go version
       register: installed_go_version
       changed_when: false
       failed_when: false
@@ -81,3 +81,6 @@
         - '/root/.zshrc'
         - "{{ zshrc_file.stat.path }}"
       when: zshrc_file.stat.exists
+
+- name: Reset ssh connection to allow GoLang to Appear in PATH.
+  ansible.builtin.meta: reset_connection

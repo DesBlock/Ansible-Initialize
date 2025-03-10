@@ -3,7 +3,7 @@
 
 - name: Install Trufflehog
   ansible.builtin.command:
-    cmd: "go install"
+    cmd: "/usr/local/go/bin/go install"
     chdir: "{{ tools_dir }}/trufflehog"
   # environment:
   #   GOROOT: "/usr/local/go"

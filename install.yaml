@@ -55,6 +55,7 @@
         name: "{{ item.key }}"
         source: "{{ item.value or '' }}"
         state: latest
+        executable: "/usr/local/bin/pipx"
       loop: "{{ lookup('ansible.builtin.dict', pipx_packages) }}"
 
     - name: Create Tools Directory

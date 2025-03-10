@@ -17,3 +17,6 @@
   register: rust_install
   changed_when: '"Rust is installed now" not in rust_install.stdout'
   when: cargo_exists.stdout | length == 0
+
+- name: Reset ssh connection to allow Rust/Cargo to Appear in PATH.
+  ansible.builtin.meta: reset_connection
