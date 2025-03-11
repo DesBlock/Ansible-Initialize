@@ -66,9 +66,11 @@
         remote_src: true
 
     - name: Ensure GoLang Path is in .bashrc
-      ansible.builtin.lineinfile:
+      ansible.builtin.blockinfile:
         path: "{{ item }}"
-        line: 'export PATH=$PATH:/usr/local/go/bin'
+        block: |
+          export PATH=$PATH:/usr/local/go/bin
+          export PATH=$PATH:{{ lookup('ansible.builtin.env', 'HOME') }}/go/bin
       loop:
         - '/root/.bashrc'
         - "{{ bashrc_file.stat.path }}"
@@ -77,7 +79,9 @@
     - name: Ensure GoLang Path is in .zshrc
       ansible.builtin.lineinfile:
         path: "{{ item }}"
-        line: 'export PATH=$PATH:/usr/local/go/bin'
+        block: |
+          export PATH=$PATH:/usr/local/go/bin
+          export PATH=$PATH:{{ lookup('ansible.builtin.env', 'HOME') }}/go/bin
       loop:
         - '/root/.zshrc'
         - "{{ zshrc_file.stat.path }}"
