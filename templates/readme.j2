@@ -1,0 +1,50 @@
+# Ansible-Initialize
+
+Use Ansible to quickly setup an operator environment in a quick and repeatable way.
+
+Tested on
+
+- Ubuntu 24.04 LTS
+- Kali 2025.1
+
+## Install
+
+Run `setup.sh` to install `pipx` and `ansible`
+
+## Usage
+
+Install all the tools with
+
+`ansible-playbook install.yaml`
+
+## Tools List
+
+### Apt
+
+{% for item in apt_packages %}
+- {{ item }}
+{% endfor %}
+
+### Git
+
+{% for item in git_packages %}
+- {{ item }}
+{% endfor %}
+
+### GoLang
+
+{% for item in golang_packages %}
+- {{ item }}
+{% endfor %}
+
+### Python/Pipx
+
+{% for item in pipx_packages %}
+- {{ item }}
+{% endfor %}
+
+### Cargo/Rust
+
+{% for item in cargo_packages %}
+- {{ item }}
+{% endfor %}
