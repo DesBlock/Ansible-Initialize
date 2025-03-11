@@ -18,6 +18,7 @@
         state: absent
         purge: true
       register: golang_purge
+      become: true
       failed_when:
         - golang_purge.failed is true
         - '"No package(s) matching" not in golang_purge.msg'
