@@ -1,8 +1,8 @@
-# Ansible-Initialize 
+# Ansible-Initialize
 
 Use Ansible to quickly setup an operator environment in a quick and repeatable way.
 
-Tested on 
+Tested on
 
 - Ubuntu 24.04 LTS
 - Kali 2025.1
@@ -17,6 +17,10 @@ Install all the tools with
 
 `ansible-playbook install.yaml`
 
+Update the README with tool list
+
+`ansible-playbook update_readme.yaml`
+
 ## Tools List
 
 ### Apt
@@ -26,7 +30,7 @@ Install all the tools with
 - git
 - hashid
 - jq
-- jython #Also configure path
+- jython
 - libpcap-dev
 - locate
 - ncat
@@ -41,12 +45,14 @@ Install all the tools with
 
 ### Git
 
+- nishang
 - trufflehog
 - seclists
 
 ### GoLang
 
 - croc
+- chisel
 - httpx
 - katana
 - naabu
@@ -54,6 +60,7 @@ Install all the tools with
 ### Python/Pipx
 
 - arjun
+- git-dumper
 - netexec
 
 ### Cargo/Rust
