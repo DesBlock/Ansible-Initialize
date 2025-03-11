@@ -6,6 +6,8 @@
 # version = 'HEAD'
 
 git_packages:
+  nishang:
+    repo: "https://github.com/samratashok/nishang.git"
   trufflehog:
     repo: "https://github.com/trufflesecurity/trufflehog.git"
   seclists:
@@ -13,3 +15,4 @@ git_packages:
     depth: 1
     dest: "/usr/share/seclists"
     become: true
+  
