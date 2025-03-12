@@ -1,6 +1,6 @@
 # All variables except "repo" are optional.
 # If not specified a default value will be used.
-# become: false 
+# become: false
 # depth = ''
 # dest = tools_dir
 # version = 'HEAD'
@@ -15,4 +15,11 @@ git_packages:
     depth: 1
     dest: "/usr/share/seclists"
     become: true
-  
+
+# Set clone to true to clone the repo into an adjacent directory.
+# clone: true
+git_releases:
+  chisel:
+    repo: "https://github.com/jpillora/chisel.git"
+  PEASS-ng:
+    repo: "https://github.com/peass-ng/PEASS-ng.git"

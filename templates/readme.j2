@@ -25,30 +25,30 @@ Update the README with tool list
 
 ### Apt
 
-{% for item in apt_packages %}
+{% for item in apt_packages | sort() %}
 - {{ item }}
 {% endfor %}
 
 ### Git
 
-{% for item in git_packages %}
+{% for item in (git_packages | combine(git_releases)) | sort() %}
 - {{ item }}
 {% endfor %}
 
 ### GoLang
 
-{% for item in golang_packages %}
+{% for item in golang_packages | sort() %}
 - {{ item }}
 {% endfor %}
 
 ### Python/Pipx
 
-{% for item in pipx_packages %}
+{% for item in pipx_packages | sort() %}
 - {{ item }}
 {% endfor %}
 
 ### Cargo/Rust
 
-{% for item in cargo_packages %}
+{% for item in cargo_packages | sort() %}
 - {{ item }}
 {% endfor %}

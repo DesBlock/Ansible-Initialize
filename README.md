@@ -45,14 +45,15 @@ Update the README with tool list
 
 ### Git
 
+- chisel
 - nishang
-- trufflehog
+- PEASS-ng
 - seclists
+- trufflehog
 
 ### GoLang
 
 - croc
-- chisel
 - httpx
 - katana
 - naabu

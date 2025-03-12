@@ -1,2 +1,3 @@
 # Directory where any downloaded tools will be stored
 tools_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}/Documents/Tools"
+binaries_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}/Documents/Tools/Binaries"
