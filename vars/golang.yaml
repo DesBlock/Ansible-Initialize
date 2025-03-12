@@ -1,6 +1,7 @@
 golang_packages:
   croc: "github.com/schollz/croc/v10@latest"
-  chisel: "github.com/jpillora/chisel@latest"
+  # Temporarily disabled in favor of git_releases binary.
+  # chisel: "github.com/jpillora/chisel@latest"
   httpx: "github.com/projectdiscovery/httpx/cmd/httpx@latest"
   katana: "github.com/projectdiscovery/katana/cmd/katana@latest"
   naabu: "github.com/projectdiscovery/naabu/v2/cmd/naabu@latest"
