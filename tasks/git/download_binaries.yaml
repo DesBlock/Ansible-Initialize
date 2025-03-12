@@ -4,16 +4,16 @@
     return_content: true
   register: json_reponse
 
-- name: Create {{ repo.value.key }} Directory
+- name: Create {{ repo.key }} Directory
   ansible.builtin.file:
-    path: "{{ tools_dir }}/{{ repo.key }}"
+    path: "{{ binaries_dir }}/{{ repo.key }}"
     state: directory
     mode: '744'
 
 - name: Download Asset
   ansible.builtin.get_url:
     url: "{{ item.browser_download_url }}"
-    dest: "{{ tools_dir }}/{{ repo.key }}/"
+    dest: "{{ binaries_dir }}/{{ repo.key }}/"
     # remote_src: true
     mode: '744'
   loop: "{{ json_reponse.json.assets }}"

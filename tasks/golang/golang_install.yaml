@@ -51,6 +51,9 @@
   when: uninstall_golang.changed or installed_go_version.stdout | length == 0
   become: true
   block:
+    - name: Install true
+      ansible.builtin.debug:
+        msg: "Release:{{ release_go_version }}\nInstalled: {{ installed_go_version.stdout }}"
 
     - name: Download Latest GoLang
       ansible.builtin.get_url:
@@ -77,7 +80,7 @@
       when: bashrc_file.stat.exists
 
     - name: Ensure GoLang Path is in .zshrc
-      ansible.builtin.lineinfile:
+      ansible.builtin.blockinfile:
         path: "{{ item }}"
         block: |
           export PATH=$PATH:/usr/local/go/bin
