@@ -4,7 +4,7 @@ apt_packages:
   - git
   - hashid
   - jq
-  - jython #Also configure path
+  - jython # Also configure path
   - libpcap-dev
   - locate
   - ncat

@@ -76,5 +76,11 @@
       register: git_clone_results
       become: "{{ item.value.become | default(false) }}"
 
+    - name: Download GitHub Release Binaries Into Tools Directory
+      ansible.builtin.include_tasks: "tasks/git/download_binaries.yaml"
+      loop: "{{ lookup('ansible.builtin.dict', git_releases) }}"
+      loop_control:
+        loop_var: repo
+
     - name: Configure specific tools
       ansible.builtin.include_tasks: "tasks/git/git_configure.yaml"
