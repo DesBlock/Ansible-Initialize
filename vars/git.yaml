@@ -25,3 +25,6 @@ git_releases:
     repo: "https://github.com/nicocha30/ligolo-ng.git"
   PEASS-ng:
     repo: "https://github.com/peass-ng/PEASS-ng.git"
+  SharpHound:
+    repo: "https://github.com/SpecterOps/SharpHound.git"
+    clone: true

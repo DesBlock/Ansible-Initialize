@@ -46,9 +46,11 @@ Update the README with tool list
 ### Git
 
 - chisel
+- ligolo-ng
 - nishang
 - PEASS-ng
 - seclists
+- SharpHound
 - trufflehog
 
 ### GoLang
@@ -61,6 +63,7 @@ Update the README with tool list
 ### Python/Pipx
 
 - arjun
+- bloodhound
 - git-dumper
 - netexec
 
