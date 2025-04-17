@@ -1,18 +1,337 @@
 apt_packages:
-  - build-essential
-  - ffuf
-  - git
-  - hashid
-  - jq
-  - jython # Also configure path
-  - libpcap-dev
-  - locate
-  - ncat
-  - nmap
-  - python3
-  - python3-dev
-  - python3-venv
-  - shellcheck
-  - sqlmap
-  - terminator
-  - wfuzz
+  aha:
+    Description: |
+      ANSI color to HTML converter
+      aha (ANSI HTML Adapter) converts ANSI colors to HTML, e.g. if you
+      want to publish the output of ls --color=yes, git diff, ccal or htop
+      as static HTML somewhere.
+  bash-completion:
+    Description: |
+      Programmable completion for the bash shell
+      bash completion extends bash's standard completion behavior to achieve
+      complex command lines with just a few keystrokes.  This project was
+      conceived to produce programmable completion routines for the most
+      common Linux/UNIX commands, reducing the amount of typing sysadmins
+      and programmers need to do on a daily basis.
+  bind9-host:
+    Description: |
+      DNS Lookup Utility
+      This package provides the 'host' DNS lookup utility in the form that
+      is bundled with the BIND 9 sources.
+  build-essential:
+    Description: |
+      Informational list of build-essential packages
+      If you do not plan to build Debian packages, you don't need this
+      package.  Starting with dpkg (>= 1.14.18) this package is required
+      for building Debian packages.
+      .
+      This package contains an informational list of packages which are
+      considered essential for building Debian packages.  This package also
+      depends on the packages on that list, to make it easy to have the
+      build-essential packages installed.
+      .
+      If you have this package installed, you only need to install whatever
+      a package specifies as its build-time dependencies to build the
+      package.  Conversely, if you are determining what your package needs
+      to build-depend on, you can always leave out the packages this
+      package depends on.
+      .
+      This package is NOT the definition of what packages are
+      build-essential; the real definition is in the Debian Policy Manual.
+      This package contains merely an informational list, which is all
+      most people need.   However, if this package and the manual disagree,
+      the manual is correct.
+  csvkit:
+    Description: |
+      command-line tools for working with CSV
+      csvkit is a suite of command-line tools for converting to and working with
+      CSV, the king of tabular file formats.
+      .
+      It is inspired by pdftk, gdal and the original csvcut tool by Joe Germuska and
+      Aaron Bycoffe.
+      .
+      If you need to do more complex data analysis than csvkit can handle, use
+      agate.
+      .
+      This package provides the command-line tools.
+  ffuf:
+    Description: |
+      Fast web fuzzer written in Go (program)
+      ffuf is a fast web fuzzer written in Go that allows typical directory
+      discovery, virtual host discovery (without DNS records) and GET and POST
+      parameter fuzzing.
+      .
+      This program is useful for pentesters, ethical hackers and forensics experts.
+      It also can be used for security tests.
+  gcp:
+    Description: |
+      advanced command line file copy system
+      gcp is an advanced command line file copy system with an interface similar to
+      that of cp. It features
+        - transfer progression indication
+        - continuous copying on error (skip to next file)
+        - copy status logging
+        - name mangling to handle target filesystem limitations
+        - forced copy serialization
+        - transfer lists management
+  git:
+    Description: |
+      fast, scalable, distributed revision control system
+      Git is popular version control system designed to handle very large
+      projects with speed and efficiency; it is used for many high profile
+      open source projects, most notably the Linux kernel.
+      .
+      Git falls in the category of distributed source code management tools.
+      Every Git working directory is a full-fledged repository with full
+      revision tracking capabilities, not dependent on network access or a
+      central server.
+      .
+      This package provides the git main components with minimal dependencies.
+      Additional functionality, e.g. a graphical user interface and revision
+      tree visualizer, tools for interoperating with other VCS's, or a web
+      interface, is provided as separate git* packages.
+  grepcidr:
+    Description: |
+      Filter IP addresses matching IPv4/IPv6 CIDR/network specification
+      grepcidr can be used to filter a list of IP addresses against one or
+      more Classless Inter-Domain Routing (CIDR) specifications, or
+      arbitrary networks specified by an address range. As with grep, there
+      are options to invert matching and load patterns from a file.
+      grepcidr is capable of comparing thousands or even millions of IPs
+      to networks with little memory usage and in reasonable computation
+      time.
+      .
+      grepcidr has endless uses in network software, including: mail
+      filtering and processing, network security, log analysis, and many
+      custom applications.
+  hashid:
+    Description: |
+      Identify the different types of hashes used to encrypt data
+      Identify the different types of hashes used to encrypt data and especially
+      passwords.
+      .
+      hashID is a tool written in Python 3.x which supports the identification of
+      over 175 unique hash types using regular expressions.
+      It is able to identify a single hash or parse a file and identify the hashes
+      within it.
+      There is also a nodejs version of hashID available which is easily set up to
+      provide online hash identification.
+  jq:
+    Description: |
+      lightweight and flexible command-line JSON processor
+      jq is like sed for JSON data – you can use it to slice
+      and filter and map and transform structured data with
+      the same ease that sed, awk, grep and friends let you
+      play with text.
+      .
+      It is written in portable C, and it has minimal runtime
+      dependencies.
+      .
+      jq can mangle the data format that you have into the
+      one that you want with very little effort, and the
+      program to do so is often shorter and simpler than
+      you’d expect.
+  jython:
+    Description: |
+      Python seamlessly integrated with Java
+      Jython is an implementation of the high-level, dynamic, object-oriented
+      language Python seamlessly integrated with the Java platform.  The
+      predecessor to Jython, JPython, is certified as 100% Pure Java.
+      .
+      Jython is complementary to Java and allows the two languages to be freely
+      mixed.  It is especially suited for embedded scripting, interactive
+      experimentation and rapid application development, and it can
+      interact with Java packages or with running Java applications.
+  libfuse3-4:
+    Description: |
+      Filesystem in Userspace (library) (3.x version)
+      Filesystem in Userspace (FUSE) is a simple interface for userspace programs to
+      export a virtual filesystem to the Linux kernel. It also aims to provide a
+      secure method for non privileged users to create and mount their own filesystem
+      implementations.
+      .
+      This package contains the shared library.
+  libpcap-dev:
+    Description: |
+      development library for libpcap (transitional package)
+      Empty package to facilitate upgrades, can be safely removed.
+  locate:
+    Description: |
+      maintain and query an index of a directory tree
+      updatedb generates an index of files and directories. GNU locate can be used
+      to quickly query this index.
+  lolcat:
+    Description: |
+      colorful `cat`
+      lolcat concatenates files like the UNIX `cat` program, but colors it for the
+      lulz in a rainbow animation. Terminals with 256 colors and animations are
+      supported.
+  make:
+    Description: |
+      utility for directing compilation
+      GNU Make is a utility which controls the generation of executables
+      and other target files of a program from the program's source
+      files. It determines automatically which pieces of a large program
+      need to be (re)created, and issues the commands to (re)create
+      them. Make can be used to organize any task in which targets (files)
+      are to be automatically updated based on input files whenever the
+      corresponding input is newer --- it is not limited to building
+      computer programs. Indeed, Make is a general purpose dependency
+      solver.
+  mtr-tiny:
+    Description: |
+      Full screen ncurses traceroute tool
+      mtr combines the functionality of the 'traceroute' and 'ping' programs
+      in a single network diagnostic tool.
+      .
+      As mtr starts, it investigates the network connection between the host
+      mtr runs on and a user-specified destination host.  After it
+      determines the address of each network hop between the machines,
+      it sends a sequence of ICMP ECHO requests to each one to determine the
+      quality of the link to each machine.  As it does this, it prints
+      running statistics about each machine.
+      .
+      mtr-tiny is compiled without support for X and conserves disk space.
+  ncat:
+    Description: |
+      NMAP netcat reimplementation
+      ncat is a reimplementation of Netcat by the NMAP project, providing
+      most of the features present in the original implementations, along
+      with some new features such as IPv6 and SSL support. Port scanning
+      support has been removed.
+  nmap:
+    Description: |
+      The Network Mapper
+      Nmap is a utility for network exploration or security auditing. It
+      supports ping scanning (determine which hosts are up), many port
+      scanning techniques, version detection (determine service protocols
+      and application versions listening behind ports), and TCP/IP
+      fingerprinting (remote host OS or device identification). Nmap also
+      offers flexible target and port specification, decoy/stealth scanning,
+      sunRPC scanning, and more. Most Unix and Windows platforms are
+      supported in both GUI and commandline modes. Several popular handheld
+      devices are also supported, including the Sharp Zaurus and the iPAQ.
+  python3:
+    Description: |
+      interactive high-level object-oriented language (default python3 version)
+      Python, the high-level, interactive object oriented language,
+      includes an extensive class library with lots of goodies for
+      network programming, system administration, sounds and graphics.
+      .
+      This package is a dependency package, which depends on Debian's default
+      Python 3 version (currently v3.13).
+  python3-dev:
+    Description: |
+      header files and a static library for Python (default)
+      Header files, a static library and development tools for building
+      Python modules, extending the Python interpreter or embedding Python
+      in applications.
+      .
+      This package is a dependency package, which depends on Debian's default
+      Python 3 version's headers (currently v3.13).
+  python3-venv:
+    Description: |
+      venv module for python3 (default python3 version)
+      This package contains the venv module for the Python language (default python3
+      version).
+      .
+      The venv module provides support for creating lightweight "virtual
+      environments" with their own site directories, optionally isolated from system
+      site directories. Each virtual environment has its own Python binary (which
+      matches the version of the binary that was used to create this environment)
+      and can have its own independent set of installed Python packages in its site
+      directories.
+      .
+      This package is a dependency package, which depends on Debian's default
+      Python 3 version's venv module (currently v3.13).
+  shellcheck:
+    Description: |
+      lint tool for shell scripts
+      The goals of ShellCheck are:
+      .
+        * To point out and clarify typical beginner's syntax issues,
+          that causes a shell to give cryptic error messages.
+      .
+        * To point out and clarify typical intermediate level semantic problems,
+          that causes a shell to behave strangely and counter-intuitively.
+      .
+        * To point out subtle caveats, corner cases and pitfalls, that may cause an
+          advanced user's otherwise working script to fail under future circumstances.
+  sqlite3:
+    Description: |
+      Command line interface for SQLite 3
+      SQLite is a C library that implements an SQL database engine.
+      Programs that link with the SQLite library can have SQL database
+      access without running a separate RDBMS process.
+  sqlmap:
+    Description: |
+      automatic SQL injection tool
+      sqlmap goal is to detect and take advantage of SQL injection
+      vulnerabilities in web applications. Once it detects one or more SQL
+      injections on the target host, the user can choose among a variety of
+      options to perform an extensive back-end database management system
+      fingerprint, retrieve DBMS session user and database, enumerate users,
+      password hashes, privileges, databases, dump entire or user's specific
+      DBMS tables/columns, run his own SQL statement, read specific files on
+      the file system and more.
+  sslscan:
+    Description: |
+      Tests SSL/TLS enabled services to discover supported cipher suites
+      This tool allow queries SSL/TLS services (such as HTTPS) and reports the
+      protocol versions, cipher suites, key exchanges, signature algorithms, and
+      certificates in use.  This helps the user understand which  parameters are
+      weak from a security standpoint.
+      .
+      sslscan can also output results into an XML file for easy consumption by
+      external programs.
+  terminator:
+    Description: |
+      multiple GNOME terminals in one window
+      Terminator is a little project to produce an efficient way of
+      filling a large area of screen space with terminals.
+      .
+      The user can have multiple terminals in one window and use
+      key bindings to switch between them. See the manpage for
+      details
+  wafw00f:
+    Description: |
+      identify and fingerprint Web Application Firewall products
+      This package identifies and fingerprints Web Application Firewall (WAF)
+      products using the following logic:
+      .
+        - Sends a _normal_ HTTP request and analyses the response; this identifies a
+          number of WAF solutions.
+        - If that is not successful, it sends a number of (potentially malicious)
+          HTTP requests and uses simple logic to deduce which WAF it is.
+        - If that is also not successful, it analyses the responses previously
+          returned and uses another simple algorithm to guess if a WAF or security
+          solution is actively responding to the attacks.
+  wfuzz:
+    Description: |
+      Web application bruteforcer
+      Wfuzz is a tool designed for bruteforcing Web Applications,
+      it can be used for finding resources not linked
+      directories, servlets, scripts, etc, bruteforce GET and
+      POST parameters for checking different kind of injections
+      (SQL, XSS, LDAP,etc), bruteforce Forms parameters
+      (User/Password), Fuzzing, etc.
+  whatweb:
+    Description: |
+      Next generation web scanner
+      WhatWeb identifies websites. It recognises web technologies including
+      content management systems (CMS), blogging platforms, statistic/analytics
+      packages, JavaScript libraries, web servers, and embedded devices.
+      .
+      WhatWeb has over 900 plugins, each to recognise something different.
+      It also identifies version numbers, email addresses, account IDs,
+      web framework modules, SQL errors, and more.
+  whois:
+    Description: |
+      intelligent WHOIS client
+      This package provides a commandline client for the WHOIS (RFC 3912)
+      protocol, which queries online servers for information such as contact
+      details for domains and IP address assignments.
+      It can intelligently select the appropriate WHOIS server for most queries.
+      .
+      The package also contains mkpasswd, a features-rich front end to the
+      password encryption function crypt(3).

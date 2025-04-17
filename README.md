@@ -23,29 +23,45 @@ Update the README with tool list
 
 ## Tools List
 
-### Apt
+### [Apt](vars/apt.yaml)
 
-- build-essential
-- ffuf
-- git
-- hashid
-- jq
-- jython
-- libpcap-dev
-- locate
-- ncat
-- nmap
-- python3
-- python3-dev
-- python3-venv
-- shellcheck
-- sqlmap
-- terminator
-- wfuzz
+- [aha](vars/apt.yaml)
+- [bash-completion](vars/apt.yaml)
+- [bind9-host](vars/apt.yaml)
+- [build-essential](vars/apt.yaml)
+- [csvkit](vars/apt.yaml)
+- [ffuf](vars/apt.yaml)
+- [gcp](vars/apt.yaml)
+- [git](vars/apt.yaml)
+- [grepcidr](vars/apt.yaml)
+- [hashid](vars/apt.yaml)
+- [jq](vars/apt.yaml)
+- [jython](vars/apt.yaml)
+- [libfuse3-4](vars/apt.yaml)
+- [libpcap-dev](vars/apt.yaml)
+- [locate](vars/apt.yaml)
+- [lolcat](vars/apt.yaml)
+- [make](vars/apt.yaml)
+- [mtr-tiny](vars/apt.yaml)
+- [ncat](vars/apt.yaml)
+- [nmap](vars/apt.yaml)
+- [python3](vars/apt.yaml)
+- [python3-dev](vars/apt.yaml)
+- [python3-venv](vars/apt.yaml)
+- [shellcheck](vars/apt.yaml)
+- [sqlite3](vars/apt.yaml)
+- [sqlmap](vars/apt.yaml)
+- [sslscan](vars/apt.yaml)
+- [terminator](vars/apt.yaml)
+- [wafw00f](vars/apt.yaml)
+- [wfuzz](vars/apt.yaml)
+- [whatweb](vars/apt.yaml)
+- [whois](vars/apt.yaml)
 
 ### Git
 
 - chisel
+- ligolo-ng
 - nishang
 - PEASS-ng
 - seclists

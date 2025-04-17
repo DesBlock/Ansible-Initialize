@@ -23,10 +23,10 @@ Update the README with tool list
 
 ## Tools List
 
-### Apt
+### [Apt](vars/apt.yaml)
 
 {% for item in apt_packages | sort() %}
-- {{ item }}
+- [{{ item }}](vars/apt.yaml)
 {% endfor %}
 
 ### Git

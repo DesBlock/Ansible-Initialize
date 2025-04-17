@@ -25,7 +25,7 @@
 
     - name: Update repositories cache and install apt packages
       ansible.builtin.apt:
-        name: "{{ apt_packages }}"
+        name: "{{ apt_packages.keys() | list }}"
         update_cache: true
       become: true
 
