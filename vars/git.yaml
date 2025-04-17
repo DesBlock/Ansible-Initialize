@@ -13,7 +13,7 @@ git_packages:
   seclists:
     repo: "https://github.com/danielmiessler/SecLists.git"
     depth: 1
-    dest: "/usr/share/seclists"
+    dest: "/usr/share/"
     become: true
 
 # Set clone to true to clone the repo into an adjacent directory.
