@@ -21,7 +21,10 @@ git_packages:
 git_releases:
   chisel:
     repo: "https://github.com/jpillora/chisel.git"
+    filter: '.*\.deb|.*window.*'
   ligolo-ng:
     repo: "https://github.com/nicocha30/ligolo-ng.git"
+    filter: '.*windows.*|.*linux.*'
   PEASS-ng:
     repo: "https://github.com/peass-ng/PEASS-ng.git"
+    filter: '.*'
