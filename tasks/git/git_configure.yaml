@@ -7,4 +7,4 @@
     chdir: "{{ tools_dir }}/trufflehog"
   # environment:
   #   GOROOT: "/usr/local/go"
-  #   GOPATH: "{{ lookup('ansible.builtin.env', 'HOME') }}/go"
+  #   GOPATH: "{{ ansible_env['HOME'] }}/go"

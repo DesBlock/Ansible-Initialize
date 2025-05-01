@@ -1,13 +1,14 @@
 - name: Check installed shells
+  # become: true
   block:
     - name: Check for .bashrc
       ansible.builtin.stat:
-        path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.bashrc"
+        path: "{{ ansible_env['HOME'] }}/.bashrc"
       register: bashrc_file
 
     - name: Check for .zshrc
       ansible.builtin.stat:
-        path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.zshrc"
+        path: "{{ ansible_env['HOME'] }}/.zshrc"
       register: zshrc_file
 
 - name: Check GoLang
@@ -53,7 +54,9 @@
   block:
     - name: Install true
       ansible.builtin.debug:
-        msg: "Release:{{ release_go_version }}\nInstalled: {{ installed_go_version.stdout }}"
+        msg: |
+          "Release:{{ release_go_version }}\n
+          Installed: {{ installed_go_version.stdout }}"
 
     - name: Download Latest GoLang
       ansible.builtin.get_url:
@@ -73,7 +76,7 @@
         path: "{{ item }}"
         block: |
           export PATH=$PATH:/usr/local/go/bin
-          export PATH=$PATH:{{ lookup('ansible.builtin.env', 'HOME') }}/go/bin
+          export PATH=$PATH:{{ ansible_env['HOME'] }}/go/bin
       loop:
         - '/root/.bashrc'
         - "{{ bashrc_file.stat.path }}"
@@ -84,7 +87,7 @@
         path: "{{ item }}"
         block: |
           export PATH=$PATH:/usr/local/go/bin
-          export PATH=$PATH:{{ lookup('ansible.builtin.env', 'HOME') }}/go/bin
+          export PATH=$PATH:{{ ansible_env['HOME'] }}/go/bin
       loop:
         - '/root/.zshrc'
         - "{{ zshrc_file.stat.path }}"
