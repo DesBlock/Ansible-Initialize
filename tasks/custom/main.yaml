@@ -12,11 +12,11 @@
         src: "custom/50-x-resize.rules"
         dest: "/etc/udev/rules.d/"
         mode: '0644'
-      notify: Restart_Notify
+      notify: Restart Notify
 
     - name: Copy Resize Script
       ansible.builtin.copy:
         src: "custom/x-resize"
         dest: "/usr/local/bin/"
         mode: '0755'
-      notify: Restart_Notify
+      notify: Restart Notify

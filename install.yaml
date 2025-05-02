@@ -1,5 +1,9 @@
 - name: Install all the tools
   hosts: "{{ ansible_limit }}"
+  handlers:
+    - name: Restart Notify
+      ansible.builtin.pause:
+        prompt: "A restart is needed to enable some configured options. Please do so at your earliest convience."
   tasks:
     - name: Include Package Variable
       ansible.builtin.include_vars: "{{ item }}"

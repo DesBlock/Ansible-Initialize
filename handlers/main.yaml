@@ -1,3 +1,0 @@
-- name: Restart_Notify
-  ansible.builtin.pause:
-    prompt: "A restart is needed to enable some configured options. Please do so at your earliest convience."
