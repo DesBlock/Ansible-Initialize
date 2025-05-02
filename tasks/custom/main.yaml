@@ -6,17 +6,17 @@
 
 - name: Setup Automatic Resizing
   become: true
+  notify: Restart Notify
   block:
     - name: Copy Resize Rules
       ansible.builtin.copy:
         src: "custom/50-x-resize.rules"
         dest: "/etc/udev/rules.d/"
         mode: '0644'
-      notify: Restart Notify
 
     - name: Copy Resize Script
       ansible.builtin.copy:
         src: "custom/x-resize"
         dest: "/usr/local/bin/"
         mode: '0755'
-      notify: Restart Notify
+
