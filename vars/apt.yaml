@@ -246,6 +246,7 @@ apt_packages:
       .
       This package is a dependency package, which depends on Debian's default
       Python 3 version's venv module (currently v3.13).
+  qemu-guest-agent:
   shellcheck:
     Description: |
       lint tool for shell scripts
@@ -259,6 +260,7 @@ apt_packages:
       .
         * To point out subtle caveats, corner cases and pitfalls, that may cause an
           advanced user's otherwise working script to fail under future circumstances.
+  spice-vdagent:
   sqlite3:
     Description: |
       Command line interface for SQLite 3

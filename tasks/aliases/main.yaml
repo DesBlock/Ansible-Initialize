@@ -1,0 +1,19 @@
+- name: Install Custom Aliases (Zsh)
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env['HOME'] }}/.zshrc"
+    block: |
+      {% for item in aliases %}
+      {{ item }}
+      {% endfor %}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: Aliases"
+  when: ansible_env['SHELL'] == "/bin/zsh"
+
+- name: Install Custom Aliases (Bash)
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env['HOME'] }}/.bashrc"
+    block: |
+      {% for item in aliases %}
+      {{ item }}
+      {% endfor %}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: Aliases"
+  when: ansible_env['SHELL'] == "/bin/bash"

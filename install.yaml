@@ -1,9 +1,10 @@
 - name: Install all the tools
-  hosts: localhost
+  hosts: "{{ ansible_limit }}"
   tasks:
     - name: Include Package Variable
       ansible.builtin.include_vars: "{{ item }}"
       loop:
+        - "aliases.yaml"
         - "apt.yaml"
         - "cargo.yaml"
         - "git.yaml"
@@ -51,17 +52,11 @@
         executable: "{{ ansible_env['HOME'] }}/.cargo/bin/cargo"
         state: latest
 
-    # - name: Install Pipx
-    #   ansible.builtin.pip:
-    #     name: pipx
-    #     extra_args: --user --break-system-packages
-
     - name: Install Pipx Packages
       community.general.pipx:
         name: "{{ item.key }}"
         source: "{{ item.value or '' }}"
         state: latest
-        # executable: "{{ ansible_env['HOME'] }}/.local/bin/pipx"
       environment:
         PATH: "{{ lookup('ansible.builtin.env', 'PATH') }}:/{{ ansible_env['HOME'] }}/.cargo/bin"
       loop: "{{ lookup('ansible.builtin.dict', pipx_packages) }}"
@@ -96,3 +91,9 @@
 
     - name: Configure specific tools
       ansible.builtin.include_tasks: "tasks/git/git_configure.yaml"
+
+    - name: Install Custom Aliases
+      ansible.builtin.include_tasks: "tasks/aliases/main.yaml"
+
+    - name: Include Custom Misc Tasks
+      ansible.builtin.include_tasks: "tasks/custom/main.yaml"
