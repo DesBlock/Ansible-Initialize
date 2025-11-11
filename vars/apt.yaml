@@ -25,6 +25,7 @@ apt_global_packages:
   # python3-pip:
   python3-venv:
   qemu-guest-agent:
+  rsync:
   shellcheck:
   spice-vdagent:
   sqlite3:
