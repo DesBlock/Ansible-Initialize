@@ -1,21 +1,22 @@
+---
 - name: Check installed shells
   # become: true
   block:
     - name: Check for .bashrc
       ansible.builtin.stat:
-        path: "{{ ansible_env['HOME'] }}/.bashrc"
+        path: "/etc/bash.bashrc"
       register: bashrc_file
 
     - name: Check for .zshrc
       ansible.builtin.stat:
-        path: "{{ ansible_env['HOME'] }}/.zshrc"
+        path: "/etc/zsh/zshrc"
       register: zshrc_file
 
 - name: Check GoLang
   block:
     - name: Remove GoLang installed with apt.
       ansible.builtin.apt:
-        name: 'golang-*'
+        name: "golang-*"
         state: absent
         purge: true
       register: golang_purge
@@ -32,7 +33,7 @@
 
     - name: Get the latest go release version
       ansible.builtin.uri:
-        url: 'https://go.dev/VERSION?m=text'
+        url: "https://go.dev/VERSION?m=text"
         return_content: true
       register: release_go_version_raw
 
@@ -54,17 +55,17 @@
   block:
     - name: Install true
       ansible.builtin.debug:
-        msg: |
-          "Release:{{ release_go_version }}\n
-          Installed: {{ installed_go_version.stdout }}"
+        msg: |-
+          "Release:   {{ release_go_version }}
+           Installed: {{ installed_go_version.stdout }}"
 
     - name: Download Latest GoLang
       ansible.builtin.get_url:
         url: "https://go.dev/dl/{{ release_go_version }}.linux-amd64.tar.gz"
         dest: "/tmp/{{ release_go_version }}.linux-amd64.tar.gz"
-        mode: '644'
+        mode: "644"
 
-    - name: Extract {{ release_go_version }} tarball
+    - name: Extract tarball {{ release_go_version }}
       ansible.builtin.unarchive:
         src: "/tmp/{{ release_go_version }}.linux-amd64.tar.gz"
         dest: "/usr/local"
@@ -73,24 +74,16 @@
 
     - name: Ensure GoLang Path is in .bashrc
       ansible.builtin.blockinfile:
-        path: "{{ item }}"
+        path: "bashrc_file.stat.path"
         block: |
           export PATH=$PATH:/usr/local/go/bin
-          export PATH=$PATH:{{ ansible_env['HOME'] }}/go/bin
-      loop:
-        - '/root/.bashrc'
-        - "{{ bashrc_file.stat.path }}"
       when: bashrc_file.stat.exists
 
     - name: Ensure GoLang Path is in .zshrc
       ansible.builtin.blockinfile:
-        path: "{{ item }}"
+        path: "zshrc_file.stat.path"
         block: |
           export PATH=$PATH:/usr/local/go/bin
-          export PATH=$PATH:{{ ansible_env['HOME'] }}/go/bin
-      loop:
-        - '/root/.zshrc'
-        - "{{ zshrc_file.stat.path }}"
       when: zshrc_file.stat.exists
 
 - name: Reset ssh connection to allow GoLang to Appear in PATH.

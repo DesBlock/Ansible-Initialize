@@ -1,3 +1,4 @@
+---
 # Directory where any downloaded tools will be stored
 tools_dir: "{{ ansible_env['HOME'] }}/Documents/Tools"
 binaries_dir: "{{ ansible_env['HOME'] }}/Documents/Tools/Binaries"

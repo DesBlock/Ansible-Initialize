@@ -1,3 +1,4 @@
+---
 golang_packages:
   croc: "github.com/schollz/croc/v10@latest"
   # Temporarily disabled in favor of git_releases binary.

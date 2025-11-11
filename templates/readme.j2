@@ -21,30 +21,34 @@ Update the README with tool list
 
 `ansible-playbook update_readme.yaml`
 
-## Tools List
+## Tools List (Sorted by installation method)
 
 ### [Apt](vars/apt.yaml)
 
-{% for item in apt_packages | sort() %}
-- [{{ item }}](vars/apt.yaml)
+{% for item in apt_packages %}
+- {{ item }}
+  -{{ apt_descriptions_dict[item] }}
 {% endfor %}
 
-### Git
+### [Git](vars/git.yaml)
 
 {% for item in (git_packages | combine(git_releases)) | sort() %}
-- {{ item }}
+- {{ git_package_descriptions[(item | lower)].name }}
+  - {{ git_package_descriptions[(item | lower)].desc }}
 {% endfor %}
 
-### GoLang
+### [GoLang](vars/golang.yaml)
 
 {% for item in golang_packages | sort() %}
-- {{ item }}
+- {{ golang_package_descriptions[(item | lower)].name }}
+  - {{ golang_package_descriptions[(item | lower)].desc }}
 {% endfor %}
 
-### Python/Pipx
+### [Python/Pipx](vars/python.yaml)
 
 {% for item in pipx_packages | sort() %}
-- {{ item }}
+- {{ pipx_descriptions[(item | lower)].name }}
+  - {{ pipx_descriptions[(item | lower)].desc }}
 {% endfor %}
 
 ### Cargo/Rust

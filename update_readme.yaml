@@ -1,3 +1,4 @@
+---
 - name: Install all the tools
   hosts: localhost
   tasks:
@@ -10,9 +11,120 @@
         - "golang.yaml"
         - "python.yaml"
         - "vars.yaml"
+
+    - name: Build Apt Documentation
+      block:
+        - name: Get APT Package List
+          ansible.builtin.set_fact:
+            apt_packages: "{{ ((apt_global_packages.keys() | list) + (apt_ubuntu_packages.keys() | list)) | sort }}"
+
+        - name: Get Apt Descriptions
+          ansible.builtin.shell:
+            cmd: |
+              set -o pipefail #
+              apt-cache show "{{ item }}" | grep 'Description:\|Description-en:' | cut -d ':' -f '2-'
+            executable: /bin/bash
+          register: apt_descriptions
+          loop: "{{ apt_packages }}"
+
+        - name: Set Apt Description Dictionary Fact
+          ansible.builtin.set_fact:
+            apt_descriptions_dict: "{{ apt_descriptions_dict | default({}) | combine({apt_packages[index]: item.stdout}) }}"
+          loop: "{{ apt_descriptions.results }}"
+          loop_control:
+            index_var: index
+            label: "{{ apt_packages[index] }}"
+
+    #   https://api.github.com/repos/OWNER/REPO | jq .description
+    - name: Build Git Documentation
+      block:
+        - name: Get Git Package Names
+          ansible.builtin.set_fact:
+            git_package_all: "{{ git_packages | combine(git_releases) }}"
+
+        - name: Get Descriptions
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/{{ item.value.repo | regex_search('github.com/(.*)\\.git', '\\1') | first }}"
+            return_content: true
+          register: json_response
+          loop: "{{ git_package_all | dict2items }}"
+
+        - name: Set Fact
+          ansible.builtin.set_fact:
+            git_package_descriptions: "{{ (git_package_descriptions | default({})) | combine({(item.json.name | lower): {'name': item.json.name, 'desc': item.json.description}})
+              }}"
+          loop: "{{ json_response.results }}"
+          loop_control:
+            label: "{{ item.json.name }}"
+
+        - name: Debug
+          ansible.builtin.debug:
+            var: git_package_descriptions
+
+    - name: Build GoLang Documentation
+      block:
+        - name: Get GoLang Descriptions
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/{{ item.value | regex_search('github.com/(.*/' ~ item.key ~ ')/.*$', '\\1') | first }}"
+            return_content: true
+          register: golang_json_response
+          loop: "{{ golang_packages | dict2items }}"
+
+        - name: Set Fact
+          ansible.builtin.set_fact:
+            golang_package_descriptions: "{{ (golang_package_descriptions | default({})) | combine({(item.json.name | lower): {'name': item.json.name, 'desc': item.json.description}})
+              }}"
+          loop: "{{ golang_json_response.results }}"
+          loop_control:
+            label: "{{ item.json.name }}"
+
+    - name: Build Python Documentation
+      block:
+        - name: Get PyPi Descriptions
+          ansible.builtin.uri:
+            url: "https://pypi.org/pypi/{{ item.key }}/json"
+            return_content: true
+          register: pypi_json_response
+          loop: "{{ pipx_packages | dict2items }}"
+          when: "'git+' not in item.value"
+
+        - name: Set Pypi Description Facts
+          ansible.builtin.set_fact:
+            pipx_descriptions: "{{ (pipx_descriptions | default({})) | combine({(item.item.key | lower): {'name': item.item.key, 'desc': item.json.info.summary}})
+              }}"
+          loop: "{{ pypi_json_response.results }}"
+          loop_control:
+            label: "{{ item.item.key }}"
+          when: "'json' in item.keys()"
+
+        - name: Get Github Pipx Descriptions
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/{{ item.value | regex_search('.*github.com/(.*)$', '\\1') | first }}"
+            return_content: true
+          register: pipx_github_json_response
+          loop: "{{ pipx_packages | dict2items }}"
+          when: "'git+' in item.value"
+
+        - name: Set Github Pipx Description Facts
+          ansible.builtin.set_fact:
+            pipx_descriptions: "{{ (pipx_descriptions | default({})) | combine({(item.json.name | lower): {'name': item.json.name, 'desc': item.json.description}})
+              }}"
+          loop: "{{ pipx_github_json_response.results }}"
+          loop_control:
+            label: "{{ item.item.key }}"
+          when: "'json' in item.keys()"
+
+    # - name: Build Rust Documentation
+    #   block:
+
+    # - name: Debug
+    #   ansible.builtin.debug:
+    #     msg: "{{ item.key ~ ': ' ~ item.value }}"
+    #   loop: "{{ apt_descriptions_dict | dict2items }}"
+
     - name: Create README from Template
       ansible.builtin.template:
         src: templates/readme.j2
         dest: README.md
-        mode: '644'
+        mode: "644"
         force: true

@@ -1,3 +1,4 @@
+---
 - name: Include Default Vars
   ansible.builtin.include_vars: "{{ playbook_dir }}/vars/vars.yaml"
 
