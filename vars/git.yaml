@@ -7,6 +7,8 @@
 # version = 'HEAD'
 
 git_packages:
+  graphw00f:
+    repo: "https://github.com/dolevf/graphw00f.git"
   nishang:
     repo: "https://github.com/samratashok/nishang.git"
   trufflehog:
@@ -16,6 +18,8 @@ git_packages:
     depth: 1
     dest: "/usr/share/"
     become: true
+  webfuzz:
+    repo: "https://github.com/PandaSt0rm/webfuzz_api.git"
 
 # Set clone to true to clone the repo into an adjacent directory.
 # clone: true

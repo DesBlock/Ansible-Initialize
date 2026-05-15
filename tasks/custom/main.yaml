@@ -1,9 +1,9 @@
 ---
 # Custom Tasks
 - name: Create Master Dirbust Wordlist
-  ansible.builtin.script: "custom/dirbust.sh {{ tools_dir }}/Dirbust.txt"
+  ansible.builtin.script: "{{ 'custom/dirbust.sh ' ~ install_git_dir ~ '/Dirbust.txt' }}"
   args:
-    creates: "{{ tools_dir }}/Dirbust.txt"
+    creates: "{{ install_git_dir ~ '/Dirbust.txt' }}"
 
 - name: Setup Automatic Resizing
   become: true

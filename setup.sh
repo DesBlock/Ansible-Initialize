@@ -68,6 +68,7 @@ function error {
 	echo -e "${red}ERROR: $1${end}"
 	echo -e "${red}Exit Code: $2${end}"
 	echo -e "${red}${3}${end}"
+	exit "$2"
 }
 
 print_header "APT Updates"
@@ -117,6 +118,10 @@ log_success
 
 log_task "Install ansible-galaxy collections"
 output=$(ansible-galaxy collection install -U community.general 2>&1) || error "Unable install galaxy collections" "$?" "$output"
+log_success
+
+log_task "Install ansible-galaxy roles"
+output=$(ansible-galaxy role install git+https://github.com/DesBlock/ansible-install-role 2>&1) || error "Unable to install galaxy roles" "$?" "$output"
 log_success
 
 echo ""

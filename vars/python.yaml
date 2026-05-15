@@ -3,3 +3,4 @@ pipx_packages:
   arjun: "arjun"
   git-dumper: "git+https://github.com/arthaud/git-dumper"
   netexec: "git+https://github.com/Pennyw0rth/NetExec"
+  wenum: "git+https://github.com/WebFuzzForge/wenum"

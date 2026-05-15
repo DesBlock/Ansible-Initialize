@@ -1,10 +1,11 @@
+---
 - name: Install all the tools
-  hosts: "{{ ansible_limit }}"
+  hosts: all,!localhost
   handlers:
     - name: Restart Notify
       ansible.builtin.pause:
         prompt: "A restart is needed to enable some configured options. Please do so at your earliest convience."
-  tasks:
+  pre_tasks:
     - name: Include Package Variable
       ansible.builtin.include_vars: "{{ item }}"
       loop:
@@ -15,87 +16,29 @@
         - "golang.yaml"
         - "python.yaml"
         - "vars.yaml"
-
-    - name: Check installed shells
-      # become: true
-      block:
-        - name: Check for .bashrc
-          ansible.builtin.stat:
-            path: "/etc/bash.bashrc"
-          register: bashrc_file
-
-        - name: Check for .zshrc
-          ansible.builtin.stat:
-            path: "/etc/zsh/zshrc"
-          register: zshrc_file
-
-    - name: Define Environment specific package list
-      ansible.builtin.set_fact:
-        dist_packages: "{{  'apt_' ~ (ansible_distribution | lower) ~ '_packages' }}"
-
-    - name: Update repositories cache and install apt packages
-      ansible.builtin.apt:
-        name: "{{ apt_global_packages | combine(lookup('vars', dist_packages)) | list }}"
-        update_cache: true
-      become: true
-
-    - name: Install GoLang
-      ansible.builtin.include_tasks: "tasks/golang/golang_install.yaml"
-
-    - name: "Install Go Packages"
-      ansible.builtin.command: "/usr/local/go/bin/go install {{ item.value }}"
-      environment:
-        PATH: "{{ ansible_env['HOME'] ~ ':/usr/local/go/bin' }}"
-      loop: "{{ lookup('ansible.builtin.dict', golang_packages) }}"
-      register: "go_get_result"
-      changed_when: "'downloading' in go_get_result.stderr"
-
-    - name: Install Rust
-      ansible.builtin.include_tasks: "tasks/rust/rust_install.yaml"
-
-    - name: Install Cargo packages
-      community.general.cargo:
-        name: "{{ cargo_packages }}"
-        executable: "{{ ansible_env['HOME'] }}:/.cargo/bin/cargo"
-        state: latest
-
-    - name: Install Pipx Packages
-      community.general.pipx:
-        name: "{{ item.key }}"
-        source: "{{ item.value or '' }}"
-        state: latest
-      environment:
-        PATH: "{{ lookup('ansible.builtin.env', 'PATH') }}:/{{ ansible_env['HOME'] }}/.cargo/bin"
-      loop: "{{ lookup('ansible.builtin.dict', pipx_packages) }}"
-
-    - name: Create Tools Directory
-      ansible.builtin.file:
-        path: "{{ tools_dir }}"
-        state: directory
-        mode: "0755"
-
-    - name: Download GitHub Release Binaries Into Tools Directory
-      ansible.builtin.include_tasks: "tasks/git/download_binaries.yaml"
-      loop: "{{ lookup('ansible.builtin.dict', git_releases) }}"
-      loop_control:
-        loop_var: repo
-
-    - name: Check for Github Release Vars that have Clone Enabled
-      ansible.builtin.set_fact:
-        git_packages: "{{ git_packages | combine({item.key: item.value}) }}"
-      loop: "{{ lookup('ansible.builtin.dict', git_releases) }}"
-      when: item.value.clone is true
-
-    - name: Git Clone Repos Into Tools Directory
-      ansible.builtin.git:
-        repo: "{{ item.value.repo }}"
-        dest: "{{ item.value.dest | default(tools_dir) }}/{{ item.key }}"
-        version: "{{ item.value.version | default('HEAD') }}"
-        depth: "{{ item.value.depth | default(omit) }}"
-      loop: "{{ lookup('ansible.builtin.dict', git_packages) }}"
-      register: git_clone_results
-      become: "{{ item.value.become | default(false) }}"
-
+  roles:
+    - role: ansible-install-role
+      vars:
+        # APT
+        install_apt_update: true
+        install_apt_upgrade: "full"
+        install_apt_autoremove: true
+        install_apt_packages: "{{ apt_global_packages | combine(lookup('vars', 'apt_' ~ (ansible_distribution | lower) ~ '_packages')) | list }}"
+        # GIT
+        install_git: true
+        install_git_releases: "{{ git_releases }}"
+        install_git_repos: "{{ git_packages }}"
+        install_git_dir: "{{ ansible_env.HOME ~ '/Documents/Tools' }}"
+        # GOLANG
+        install_golang: true
+        install_golang_packages: "{{ golang_packages }}"
+        # PIPX
+        install_pipx: true
+        install_pipx_packages: "{{ pipx_packages }}"
+        # RUST/CARGO
+        install_rust: true
+        install_rust_packages: "{{ cargo_packages }}"
+  tasks:
     - name: Configure specific tools
       ansible.builtin.include_tasks: "tasks/git/git_configure.yaml"
 

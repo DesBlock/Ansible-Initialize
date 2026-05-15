@@ -2,16 +2,6 @@
 - name: Install all the tools
   hosts: localhost
   tasks:
-    - name: Include Package Variable
-      ansible.builtin.include_vars: "{{ item }}"
-      loop:
-        - "apt.yaml"
-        - "cargo.yaml"
-        - "git.yaml"
-        - "golang.yaml"
-        - "python.yaml"
-        - "vars.yaml"
-
     - name: Build Apt Documentation
       block:
         - name: Get APT Package List
@@ -51,7 +41,9 @@
 
         - name: Set Fact
           ansible.builtin.set_fact:
-            git_package_descriptions: "{{ (git_package_descriptions | default({})) | combine({(item.json.name | lower): {'name': item.json.name, 'desc': item.json.description}})
+            git_package_descriptions: >
+              "{{(git_package_descriptions | default({})) | combine({(item.json.name | lower):
+                  {'name': item.json.name, 'desc': item.json.description}})
               }}"
           loop: "{{ json_response.results }}"
           loop_control:
@@ -72,7 +64,9 @@
 
         - name: Set Fact
           ansible.builtin.set_fact:
-            golang_package_descriptions: "{{ (golang_package_descriptions | default({})) | combine({(item.json.name | lower): {'name': item.json.name, 'desc': item.json.description}})
+            golang_package_descriptions: >
+              "{{ (golang_package_descriptions | default({})) |
+              combine({(item.json.name | lower): {'name': item.json.name, 'desc': item.json.description}})
               }}"
           loop: "{{ golang_json_response.results }}"
           loop_control:
@@ -90,7 +84,9 @@
 
         - name: Set Pypi Description Facts
           ansible.builtin.set_fact:
-            pipx_descriptions: "{{ (pipx_descriptions | default({})) | combine({(item.item.key | lower): {'name': item.item.key, 'desc': item.json.info.summary}})
+            pipx_descriptions: >
+              "{{ (pipx_descriptions | default({})) |
+              combine({(item.item.key | lower): {'name': item.item.key, 'desc': item.json.info.summary}})
               }}"
           loop: "{{ pypi_json_response.results }}"
           loop_control:
@@ -107,7 +103,9 @@
 
         - name: Set Github Pipx Description Facts
           ansible.builtin.set_fact:
-            pipx_descriptions: "{{ (pipx_descriptions | default({})) | combine({(item.json.name | lower): {'name': item.json.name, 'desc': item.json.description}})
+            pipx_descriptions: >
+              "{{ (pipx_descriptions | default({})) |
+               combine({(item.json.name | lower): {'name': item.json.name, 'desc': item.json.description}})
               }}"
           loop: "{{ pipx_github_json_response.results }}"
           loop_control:
