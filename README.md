@@ -17,6 +17,10 @@ Install all the tools with
 
 `ansible-playbook install.yaml`
 
+If running against localhost use:
+
+`ansible-playbook install.yaml --connection=local --limit localhost`
+
 Update the README with tool list
 
 `ansible-playbook update_readme.yaml`

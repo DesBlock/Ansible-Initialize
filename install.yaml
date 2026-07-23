@@ -1,43 +1,32 @@
 ---
 - name: Install all the tools
-  hosts: all,!localhost
-  handlers:
-    - name: Restart Notify
-      ansible.builtin.pause:
-        prompt: "A restart is needed to enable some configured options. Please do so at your earliest convience."
-  pre_tasks:
-    - name: Include Package Variable
-      ansible.builtin.include_vars: "{{ item }}"
-      loop:
-        - "aliases.yaml"
-        - "apt.yaml"
-        - "cargo.yaml"
-        - "git.yaml"
-        - "golang.yaml"
-        - "python.yaml"
-        - "vars.yaml"
+  hosts: "{{ ansible_limit | default('all') }}"
   roles:
-    - role: ansible-install-role
+    - role: desblock.install
       vars:
-        # APT
+        install_apt_autoremove: true
+        install_apt_packages: "{{ apt_global_packages | combine(lookup('vars', 'apt_' ~ (ansible_facts['distribution'] | lower) ~ '_packages')) | list }}"
         install_apt_update: true
         install_apt_upgrade: "full"
-        install_apt_autoremove: true
-        install_apt_packages: "{{ apt_global_packages | combine(lookup('vars', 'apt_' ~ (ansible_distribution | lower) ~ '_packages')) | list }}"
-        # GIT
-        install_git: true
+
         install_git_releases: "{{ git_releases }}"
         install_git_repos: "{{ git_packages }}"
-        install_git_dir: "{{ ansible_env.HOME ~ '/Documents/Tools' }}"
-        # GOLANG
-        install_golang: true
+        install_git: true
+
         install_golang_packages: "{{ golang_packages }}"
-        # PIPX
-        install_pipx: true
+        install_golang: true
+
         install_pipx_packages: "{{ pipx_packages }}"
-        # RUST/CARGO
-        install_rust: true
+        install_pipx: true
+
+        install_reboot: true
+
+        install_ruby_packages:
+        install_ruby: true
+
         install_rust_packages: "{{ cargo_packages }}"
+        install_rust: true
+
   tasks:
     - name: Configure specific tools
       ansible.builtin.include_tasks: "tasks/git/git_configure.yaml"
