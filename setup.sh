@@ -105,18 +105,19 @@ output=$(pipx install --include-deps ansible 2>&1) || error "Unable install ansi
 log_success
 
 log_task "Installing additional libraries"
-output=$(pipx inject ansible ansible-lint 2>&1) || error "Unable inject additional libraries" "$?" "$output"
+output=$(pipx inject ansible ansible-lint --include-deps 2>&1) || error "Unable inject additional libraries" "$?" "$output"
 log_success
 
-log_task "Check for updates"
+log_task "Check for pipx updates"
 output=$(pipx upgrade ansible --include-injected 2>&1) || error "Unable upgrade ansible pipx environment" "$?" "$output"
 log_success
 
-# Source again to include ansible packages in PATH
-#source "$HOME/.bashrc"
-
 log_task "Install ansible-galaxy collections"
-output=$(ansible-galaxy collection install -U community.general 2>&1) || error "Unable install galaxy collections" "$?" "$output"
+output=$(ansible-galaxy collection install -U -r requirements.yaml 2>&1) || error "Unable install galaxy collections" "$?" "$output"
+log_success
+
+log_task "Install ansible-galaxy roles"
+output=$(ansible-galaxy role install -U -r requirements.yaml 2>&1) || error "Unable install galaxy roles" "$?" "$output"
 log_success
 
 echo ""
